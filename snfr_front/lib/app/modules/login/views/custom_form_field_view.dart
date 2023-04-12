@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/custom_form_field_controller_controller.dart';
+import '../controllers/sign_up_controller.dart';
 
 class CustomFormFieldView extends GetView<CustomFormFieldControllerController> {
+
+  final EdgeInsets margins;
+  final bool isPassword;
+  final bool isEmail;
+  final String labelText;
+  //Controllers
+  final signUpController = Get.find<SignUpController>();
+  final TextEditingController textEditingController;
   CustomFormFieldView({
     Key? key,
     required this.margins,
     required this.labelText,
+    required this.textEditingController,
     this.isPassword = false,
     this.isEmail = false,
   }) : super(key: key);
-  final EdgeInsets margins;
-  bool isPassword;
-  bool isEmail;
-  final String labelText;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +28,7 @@ class CustomFormFieldView extends GetView<CustomFormFieldControllerController> {
       margin: margins,
       child: TextFormField(
         obscureText: isPassword,
+        controller: textEditingController,
         keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
@@ -33,13 +40,27 @@ class CustomFormFieldView extends GetView<CustomFormFieldControllerController> {
             }
           }
         if (isPassword) {
-            if (value!.length > 6) {
-              return null;
-            } else {
+          //Todo : maybe abstract in controller.
+            if (value!.length < 6 ) {
               return 'Password must be at least 6 characters';
+            } else if (GetUtils.isAlphabetOnly(value)) {
+              return 'Passwords must include a number';
+            } else if (GetUtils.isNumericOnly(value)) {
+              return 'Passwords must include a letter';
+            } else if (!GetUtils.hasCapitalletter(value)) {
+              return 'Password must include a capital letter';
             }
           }
         return null;
+        },
+        onChanged: (value) {
+          if (isEmail) {
+            signUpController.email.value = value;
+          }
+          if (isPassword) {
+            signUpController.password.value = value;
+            signUpController.confirmPassword.value = value;
+          }
         },
         decoration: InputDecoration(
           labelText: labelText,

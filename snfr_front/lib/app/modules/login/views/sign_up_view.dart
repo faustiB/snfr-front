@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+import 'package:snfr_front/app/modules/login/controllers/sign_up_controller.dart';
 
-import '../controllers/login_controller.dart';
 import 'custom_form_field_view.dart';
-import 'sign_up_view.dart';
 
-class LoginView extends GetView<LoginController> {
+class SignUpView extends GetView<SignUpController> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
-  LoginView({Key? key}) : super(key: key);
-
+  SignUpView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class LoginView extends GetView<LoginController> {
           Container(
             margin: const EdgeInsets.only(top: 100),
             child: Text(
-              "LOGIN",
+              "Sign up to SneakerFinder",
               style: TextStyle(
                 color: Colors.blueAccent,
                 fontSize: 30,
@@ -36,21 +36,15 @@ class LoginView extends GetView<LoginController> {
           CustomFormFieldView(
             margins: const EdgeInsets.all(10),
             isPassword: true,
-            textEditingController: passwordController,
             labelText: 'Password',
+            textEditingController: passwordController,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: Colors.blueAccent),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () {
-              //TODO: handle firebase login on controller.
-            },
-            child: const Text('Sign in'),
+          CustomFormFieldView(
+            margins: const EdgeInsets.all(10),
+            isPassword: true,
+            labelText: 'Confirm Password',
+            textEditingController: confirmPasswordController,
+
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -61,10 +55,30 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             onPressed: () {
-              Get.to(() => SignUpView());
+              controller.email.value = emailController.text;
+              controller.password.value = passwordController.text;
+              controller.confirmPassword.value = confirmPasswordController.text;
+
+              if (controller.checkPassword()) {
+                Get.snackbar(
+                  'Success',
+                  'Account created',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  colorText: Colors.white,
+                );
+              } else {
+                Get.snackbar(
+                  'Error',
+                  'Passwords do not match',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
+              }
             },
             child: const Text(
-              'Sign up',
+              'Create Account',
               style: TextStyle(color: Colors.blueAccent),
             ),
           ),
