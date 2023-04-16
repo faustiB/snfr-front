@@ -54,20 +54,12 @@ class SignUpView extends GetView<SignUpController> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
               controller.email.value = emailController.text;
               controller.password.value = passwordController.text;
               controller.confirmPassword.value = confirmPasswordController.text;
 
-              if (controller.checkPassword()) {
-                Get.snackbar(
-                  'Success',
-                  'Account created',
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: Colors.green,
-                  colorText: Colors.white,
-                );
-              } else {
+              if (!controller.checkPassword()) {
                 Get.snackbar(
                   'Error',
                   'Passwords do not match',
@@ -75,6 +67,27 @@ class SignUpView extends GetView<SignUpController> {
                   backgroundColor: Colors.red,
                   colorText: Colors.white,
                 );
+              } else {
+                await controller.signUp();
+                if (controller.errorMessage.isEmpty) {
+                  if(controller.userCredential.user?.email != null){
+                    Get.snackbar(
+                      'Success',
+                      '${controller.userCredential.user?.email} Account created',
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.green,
+                      colorText: Colors.white,
+                    );
+                  }
+                } else {
+                  Get.snackbar(
+                    'Error',
+                    controller.errorMessage,
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                  );
+                }
               }
             },
             child: const Text(

@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
-  //TODO: Implement SignUpControllerController
   final email = ''.obs;
   final password = ''.obs;
   final confirmPassword = ''.obs;
+  late UserCredential userCredential;
+  late String errorMessage;
 
-  final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
@@ -30,5 +31,19 @@ class SignUpController extends GetxController {
     }
   }
 
-  void increment() => count.value++;
+  //Signup logic with friebase auth with uemail and password.
+  signUp() async {
+    try {
+      errorMessage = '';
+      userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.value, password: password.value);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        errorMessage = 'The password provided is too weak.';
+      } else if (e.code == 'email-already-in-use') {
+        errorMessage = 'The account already exists for that email.';
+      }
+    } catch (e) {
+      print(errorMessage);
+    }
+  }
 }
