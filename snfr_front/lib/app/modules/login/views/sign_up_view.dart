@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:snfr_front/app/modules/login/controllers/sign_up_controller.dart';
 
 import 'custom_form_field_view.dart';
+import 'login_view.dart';
 
 class SignUpView extends GetView<SignUpController> {
   final TextEditingController emailController = TextEditingController();
@@ -78,6 +79,7 @@ class SignUpView extends GetView<SignUpController> {
                       backgroundColor: Colors.green,
                       colorText: Colors.white,
                     );
+                    Get.offAll(() => LoginView());
                   }
                 } else {
                   Get.snackbar(
