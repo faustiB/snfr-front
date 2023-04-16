@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -48,7 +49,35 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             onPressed: () {
-              //TODO: handle firebase login on controller.
+              if (emailController.text.isNotEmpty &&
+                  passwordController.text.isNotEmpty) {
+                controller.login(emailController.text, passwordController.text);
+                if (controller.errorMessage.isNotEmpty) {
+                  Get.snackbar(
+                    'Error',
+                    controller.errorMessage,
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                  );
+                } else if (FirebaseAuth.instance.currentUser != null) {
+                  Get.snackbar(
+                    'Success',
+                    'You are logged in',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.green,
+                    colorText: Colors.white,
+                  );
+                }
+              } else {
+                Get.snackbar(
+                  'Error',
+                  'Please fill all the fields',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
+              }
             },
             child: const Text('Sign in'),
           ),
