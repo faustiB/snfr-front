@@ -6,8 +6,6 @@ class LoginController extends GetxController {
   late String errorMessage;
   @override
   void onInit() {
-
-    if(_auth.currentUser != null) Get.offAllNamed('/landing');
     super.onInit();
   }
 

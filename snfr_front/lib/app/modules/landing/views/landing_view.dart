@@ -18,6 +18,7 @@ class LandingView extends GetView<LandingController> {
           'LandingView is working',
           style: TextStyle(fontSize: 20),
         ),
+        //TODO: ADD list view of all shoes and also button to logout. 
       ),
     );
   }
