@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../shoe_model.dart';
+
 class LandingController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  List<Shoe> shoes = [];
 
   @override
   void onInit() {
+    getShoes();
     super.onInit();
   }
 
@@ -18,6 +23,24 @@ class LandingController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  //retrieve all from collection shoes in firebase
+  Future<List<Shoe>> getShoes() async {
+    try {
+      shoes = [];
+      final snapshot = await FirebaseFirestore.instance.collection('shoes').get();
+      for (var doc in snapshot.docs) {
+        print(Shoe.fromJson(doc.data()).title);
+        shoes.add(Shoe.fromJson(doc.data()));
+      }
+      //Remove the € sign, cast it to int , and then sort the array from lowest to highest
+      //TODO: Sort the array from lowest to highest maybe handle the price in back?
+      print(shoes.length);
+    } catch (e) {
+      print(e);
+    }
+    return shoes;
   }
 
   Future<void> signOut() async {
@@ -41,5 +64,4 @@ class LandingController extends GetxController {
         return Icons.menu;
     }
   }
-
 }
