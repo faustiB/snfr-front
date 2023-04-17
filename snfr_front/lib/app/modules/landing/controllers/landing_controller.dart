@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LandingController extends GetxController {
@@ -25,6 +26,19 @@ class LandingController extends GetxController {
       Get.offAllNamed('/login');
     } catch (e) {
       print(e);
+    }
+  }
+
+  IconData getIconName(String menuItem) {
+    switch (menuItem) {
+      case 'Profile':
+        return Icons.person_outline_rounded;
+      case 'Settings':
+        return Icons.settings;
+      case 'Logout':
+        return Icons.logout_outlined;
+      default:
+        return Icons.menu;
     }
   }
 
