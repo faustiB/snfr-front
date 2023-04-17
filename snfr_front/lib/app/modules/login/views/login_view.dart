@@ -48,10 +48,11 @@ class LoginView extends GetView<LoginController> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
               if (emailController.text.isNotEmpty &&
                   passwordController.text.isNotEmpty) {
-                controller.login(emailController.text, passwordController.text);
+                await controller.login(emailController.text, passwordController.text);
+                print(controller.errorMessage);
                 if (controller.errorMessage.isNotEmpty) {
                   Get.snackbar(
                     'Error',

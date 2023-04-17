@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../controllers/landing_controller.dart';
 
 class LandingView extends GetView<LandingController> {
   const LandingView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('LandingView'),
+        title: const Text('SneakerFinder'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              controller.signOut();
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
-      body: const Center(
+      body: Center(
         child: Text(
           'LandingView is working',
           style: TextStyle(fontSize: 20),
         ),
-        //TODO: ADD list view of all shoes and also button to logout. 
       ),
     );
   }
