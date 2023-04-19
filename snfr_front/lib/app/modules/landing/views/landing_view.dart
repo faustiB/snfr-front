@@ -15,56 +15,93 @@ class LandingView extends GetView<LandingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SneakerFinder'),
-        centerTitle: true,
-        actions: <Widget>[
-          PopupMenuButton(
-            icon: const Icon(Icons.menu_rounded),
-            itemBuilder: (BuildContext context) {
-              return _menuItems.map((String menuItem) {
-                return PopupMenuItem(
-                  value: menuItem,
-                  child: Row(
-                    children: [
-                      Icon(controller.getIconName(menuItem), color: Colors.blueAccent),
-                      const SizedBox(width: 10),
-                      Text(menuItem),
-                    ],
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: const Text(
+            'SneakerFinder',
+            style: TextStyle(color: Colors.blueAccent),
+          ),
+          centerTitle: true,
+          actions: <Widget>[
+            PopupMenuButton(
+              icon: const Icon(
+                Icons.menu_rounded,
+                color: Colors.blueAccent,
+              ),
+              itemBuilder: (BuildContext context) {
+                return _menuItems.map((String menuItem) {
+                  return PopupMenuItem(
+                    value: menuItem,
+                    child: Row(
+                      children: [
+                        Icon(controller.getIconName(menuItem), color: Colors.blueAccent),
+                        const SizedBox(width: 10),
+                        Text(menuItem),
+                      ],
+                    ),
+                  );
+                }).toList();
+              },
+              onSelected: (menuItem) async {
+                await handleOnPress(menuItem);
+              },
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: controller.shoes.length,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                child: Card(
+                  margin: const EdgeInsets.only(
+                    left: 16,
+                    right: 16,
+                    top: 16,
                   ),
-                );
-              }).toList();
-            },
-            onSelected: (menuItem) async {
-              await handleOnPress(menuItem);
+                  elevation: 8,
+                  shadowColor: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      controller.shoes[index].title!,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueAccent.shade200,
+                      ),
+                    ),
+                    subtitle: Text(
+                      controller.shoes[index].price!,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.blueAccent.shade100,
+                      ),
+                    ),
+                    leading: Image.network(
+                      fit: BoxFit.fill,
+                      controller.shoes[index].image!,
+                    ),
+                    trailing: const Icon(
+                      //TODO: Maybe put the icon of shop ?
+                      Icons.shopping_cart_outlined,
+                      color: Colors.blueAccent,
+                    )
+                  ),
+                  borderOnForeground: true,
+                ),
+                onTap: () {
+                  //TODO: Move this to detail page of item.
+                  launchUrl(Uri.parse(controller.shoes[index].url!));
+                },
+              );
             },
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: controller.shoes.length,
-          itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              child: Card(
-                child: ListTile(
-                  title: Text(controller.shoes[index].title!),
-                  subtitle: Text(controller.shoes[index].price!),
-                  leading: Image.network(controller.shoes[index].image!),
-                ),
-                borderOnForeground: true,
-              ),
-              onTap: () {
-                //TODO: Move this to detail page of item.
-                launchUrl(Uri.parse(controller.shoes[index].url!));
-              },
-            );
-          },
-        ),
-      )
-    );
+        ));
   }
 
   Future<void> handleOnPress(String menuItem) async {
