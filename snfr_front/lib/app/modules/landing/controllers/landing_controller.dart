@@ -10,13 +10,13 @@ class LandingController extends GetxController {
   List<Shoe> shoes = [];
 
   @override
-  void onInit() {
-    getShoes();
+  void onInit() async {
+    await getShoes();
     super.onInit();
   }
 
   @override
-  void onReady() {
+  void onReady()  {
     super.onReady();
   }
 

@@ -49,8 +49,7 @@ class LoginView extends GetView<LoginController> {
               ),
             ),
             onPressed: () async {
-              if (emailController.text.isNotEmpty &&
-                  passwordController.text.isNotEmpty) {
+              if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
                 await controller.login(emailController.text, passwordController.text);
                 print(controller.errorMessage);
                 if (controller.errorMessage.isNotEmpty) {
@@ -82,21 +81,25 @@ class LoginView extends GetView<LoginController> {
             },
             child: const Text('Sign in'),
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: Colors.blueAccent),
-                borderRadius: BorderRadius.circular(10),
+          Column(
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(color: Colors.blueAccent),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Get.to(() => SignUpView());
+                },
+                child: const Text(
+                  'Sign up',
+                  style: TextStyle(color: Colors.blueAccent),
+                ),
               ),
-            ),
-            onPressed: () {
-              Get.to(() => SignUpView());
-            },
-            child: const Text(
-              'Sign up',
-              style: TextStyle(color: Colors.blueAccent),
-            ),
+            ],
           ),
         ],
       ),

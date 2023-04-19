@@ -57,7 +57,7 @@ class LandingView extends GetView<LandingController> {
                 borderOnForeground: true,
               ),
               onTap: () {
-                //TODO: Move this to detail page of item. 
+                //TODO: Move this to detail page of item.
                 launchUrl(Uri.parse(controller.shoes[index].url!));
               },
             );
