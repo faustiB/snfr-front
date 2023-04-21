@@ -7,7 +7,7 @@ import '../shoe_model.dart';
 
 class LandingController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<Shoe> shoes = [];
+  RxList<Shoe> shoes = <Shoe>[].obs;
 
   @override
   void onInit() async {
@@ -28,7 +28,7 @@ class LandingController extends GetxController {
   //retrieve all from collection shoes in firebase
   Future<List<Shoe>> getShoes() async {
     try {
-      shoes = [];
+      shoes.value = [];
       final snapshot = await FirebaseFirestore.instance.collection('shoes').get();
       for (var doc in snapshot.docs) {
         print(Shoe.fromJson(doc.data()).title);

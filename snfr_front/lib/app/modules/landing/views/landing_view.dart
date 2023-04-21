@@ -49,58 +49,61 @@ class LandingView extends GetView<LandingController> {
           ],
         ),
         body: SingleChildScrollView(
-          child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: controller.shoes.length,
-            itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                child: Card(
-                  margin: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 16,
-                  ),
-                  elevation: 8,
-                  shadowColor: Colors.blueAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      controller.shoes[index].title!,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent.shade200,
+          child: Obx(() {
+              return ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: controller.shoes.value.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    child: Card(
+                      margin: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 16,
                       ),
-                    ),
-                    subtitle: Text(
-                      controller.shoes[index].price!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.blueAccent.shade100,
+                      elevation: 8,
+                      shadowColor: Colors.blueAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
+                      child: ListTile(
+                          title: Text(
+                            controller.shoes.value[index].title!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueAccent.shade200,
+                            ),
+                          ),
+                          subtitle: Text(
+                            controller.shoes.value[index].price!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.blueAccent.shade100,
+                            ),
+                          ),
+                          leading: Image.network(
+                            fit: BoxFit.fill,
+                            controller.shoes.value[index].image!,
+                          ),
+                          trailing: const Icon(
+                            //TODO: Maybe put the icon of shop ?
+                            Icons.shopping_cart_outlined,
+                            color: Colors.blueAccent,
+                          )
+                      ),
+                      borderOnForeground: true,
                     ),
-                    leading: Image.network(
-                      fit: BoxFit.fill,
-                      controller.shoes[index].image!,
-                    ),
-                    trailing: const Icon(
-                      //TODO: Maybe put the icon of shop ?
-                      Icons.shopping_cart_outlined,
-                      color: Colors.blueAccent,
-                    )
-                  ),
-                  borderOnForeground: true,
-                ),
-                onTap: () {
-                  //TODO: Move this to detail page of item.
-                  launchUrl(Uri.parse(controller.shoes[index].url!));
+                    onTap: () {
+                      //TODO: Move this to detail page of item.
+                      launchUrl(Uri.parse(controller.shoes[index].url!));
+                    },
+                  );
                 },
               );
-            },
-          ),
+            }
+          )
         ));
   }
 
