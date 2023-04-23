@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../routes/app_pages.dart';
+
 class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late String errorMessage;
@@ -23,7 +25,7 @@ class LoginController extends GetxController {
     try {
       errorMessage = '';
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      Get.offAllNamed('/landing');
+      Get.offAllNamed(Routes.LANDING);
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'user-not-found') {
