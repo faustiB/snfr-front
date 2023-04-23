@@ -6,7 +6,6 @@ class DetailController extends GetxController {
 
   final shoe = Shoe().obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
     fillShoe();
@@ -27,5 +26,4 @@ class DetailController extends GetxController {
     shoe.value = Get.arguments;
   }
 
-  void increment() => count.value++;
 }
