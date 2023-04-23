@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/landing_controller.dart';
 
 class LandingView extends GetView<LandingController> {
@@ -69,35 +70,37 @@ class LandingView extends GetView<LandingController> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: ListTile(
-                        title: Text(
-                          controller.shoes.value[index].title!,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueAccent.shade200,
-                          ),
+                      title: Text(
+                        controller.shoes.value[index].title!,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueAccent.shade200,
                         ),
-                        subtitle: Text(
-                          controller.shoes.value[index].price!,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.blueAccent.shade100,
-                          ),
+                      ),
+                      subtitle: Text(
+                        controller.shoes.value[index].price!,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.blueAccent.shade100,
                         ),
-                        leading: Image.network(
-                          fit: BoxFit.fill,
-                          controller.shoes.value[index].image!,
-                        ),
-                        trailing: const Icon(
-                          //TODO: Maybe put the icon of shop ?
-                          Icons.shopping_cart_outlined,
-                          color: Colors.blueAccent,
-                        )),
+                      ),
+                      leading: Image.network(
+                        fit: BoxFit.fill,
+                        controller.shoes.value[index].image!,
+                      ),
+                      trailing: const Icon(
+                        //TODO: Maybe put the icon of shop ?
+                        Icons.shopping_cart_outlined,
+                        color: Colors.blueAccent,
+                      ),
+                    ),
                     borderOnForeground: true,
                   ),
                   onTap: () {
                     //TODO: Move this to detail page of item.
-                    launchUrl(Uri.parse(controller.shoes[index].url!));
+                    Get.toNamed(Routes.DETAIL, arguments: controller.shoes[index]);
+                    //launchUrl(Uri.parse(controller.shoes[index].url!));
                   },
                 );
               },
