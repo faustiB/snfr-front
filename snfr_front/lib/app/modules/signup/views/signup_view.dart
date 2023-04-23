@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:snfr_front/app/modules/login/controllers/sign_up_controller.dart';
 
-import 'custom_form_field_view.dart';
-import 'login_view.dart';
+import '../../../routes/app_pages.dart';
+import '../../login/views/custom_form_field_view.dart';
+import '../controllers/signup_controller.dart';
 
-class SignUpView extends GetView<SignUpController> {
+class SignupView extends GetView<SignupController> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  SignUpView({Key? key}) : super(key: key);
+  SignupView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sign up in SneakerFinder'),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           Container(
@@ -79,7 +83,7 @@ class SignUpView extends GetView<SignUpController> {
                       backgroundColor: Colors.green,
                       colorText: Colors.white,
                     );
-                    Get.offAll(() => LoginView());
+                    Get.offAllNamed(Routes.LOGIN);
                   }
                 } else {
                   Get.snackbar(

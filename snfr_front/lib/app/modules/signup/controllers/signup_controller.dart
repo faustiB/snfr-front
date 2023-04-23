@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-class SignUpController extends GetxController {
+class SignupController extends GetxController {
   final email = ''.obs;
   final password = ''.obs;
   final confirmPassword = ''.obs;

@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/login_controller.dart';
 import 'custom_form_field_view.dart';
-import 'sign_up_view.dart';
 
 class LoginView extends GetView<LoginController> {
   final TextEditingController emailController = TextEditingController();
@@ -15,18 +15,14 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+        centerTitle: true,
+      ),
       body: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 100),
-            child: Text(
-              "LOGIN",
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          SizedBox(
+            height: 100,
           ),
           CustomFormFieldView(
             margins: const EdgeInsets.only(top: 100, left: 10, right: 10),
@@ -92,7 +88,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
                 onPressed: () {
-                  Get.to(() => SignUpView());
+                  Get.toNamed(Routes.SIGNUP);
                 },
                 child: const Text(
                   'Sign up',

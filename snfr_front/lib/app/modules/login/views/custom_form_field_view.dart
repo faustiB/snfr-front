@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:snfr_front/app/modules/signup/controllers/signup_controller.dart';
 
 import '../controllers/custom_form_field_controller_controller.dart';
-import '../controllers/sign_up_controller.dart';
 
 class CustomFormFieldView extends GetView<CustomFormFieldControllerController> {
 
@@ -11,7 +11,7 @@ class CustomFormFieldView extends GetView<CustomFormFieldControllerController> {
   final bool isEmail;
   final String labelText;
   //Controllers
-  final signUpController = Get.find<SignUpController>();
+  final signUpController = Get.find<SignupController>();
   final TextEditingController textEditingController;
   CustomFormFieldView({
     Key? key,
