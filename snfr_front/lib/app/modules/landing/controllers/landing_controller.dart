@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../routes/app_pages.dart';
 import '../shoe_model.dart';
 
 class LandingController extends GetxController {
@@ -29,10 +30,12 @@ class LandingController extends GetxController {
   Future<List<Shoe>> getShoes() async {
     try {
       shoes.value = [];
+      var shoe = Shoe();
       final snapshot = await FirebaseFirestore.instance.collection('shoes').get();
       for (var doc in snapshot.docs) {
-        print(Shoe.fromJson(doc.data()).title);
-        shoes.add(Shoe.fromJson(doc.data()));
+        shoe = Shoe.fromJson(doc.data());
+        print(shoe.title);
+        shoes.add(shoe);
       }
       //Remove the € sign, cast it to int , and then sort the array from lowest to highest
       //TODO: Sort the array from lowest to highest maybe handle the price in back?
@@ -46,7 +49,7 @@ class LandingController extends GetxController {
   Future<void> signOut() async {
     try {
       await _auth.signOut();
-      Get.offAllNamed('/login');
+      Get.offAllNamed(Routes.LOGIN);
     } catch (e) {
       print(e);
     }
