@@ -4,8 +4,9 @@ class Shoe {
   String? price;
   String? title;
   String? url;
+  double? priceDouble;
 
-  Shoe({this.image, this.price, this.title, this.url});
+  Shoe({this.image, this.price, this.title, this.url, this.priceDouble});
 
   Shoe.fromJson(Map<String, dynamic> json) {
     image = json['image'];

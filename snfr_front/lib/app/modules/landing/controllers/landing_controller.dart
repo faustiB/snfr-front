@@ -30,15 +30,18 @@ class LandingController extends GetxController {
   Future<List<Shoe>> getShoes() async {
     try {
       shoes.value = [];
+      var priceDouble = 0.0;
       var shoe = Shoe();
       final snapshot = await FirebaseFirestore.instance.collection('shoes').get();
       for (var doc in snapshot.docs) {
         shoe = Shoe.fromJson(doc.data());
+        priceDouble = double.parse(shoe.price!.split('€')[0].replaceAll(",", "."));
+        shoe.priceDouble = priceDouble;
         print(shoe.title);
         shoes.add(shoe);
       }
-      //Remove the € sign, cast it to int , and then sort the array from lowest to highest
-      //TODO: Sort the array from lowest to highest maybe handle the price in back?
+      shoes.sort((a, b) => a.priceDouble!.compareTo(b.priceDouble!));
+
       print(shoes.length);
     } catch (e) {
       print(e);
