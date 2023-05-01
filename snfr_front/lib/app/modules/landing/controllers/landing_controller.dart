@@ -17,7 +17,7 @@ class LandingController extends GetxController {
   }
 
   @override
-  void onReady()  {
+  void onReady() {
     super.onReady();
   }
 
@@ -26,7 +26,6 @@ class LandingController extends GetxController {
     super.onClose();
   }
 
-  //retrieve all from collection shoes in firebase
   Future<List<Shoe>> getShoes() async {
     try {
       shoes.value = [];
@@ -37,8 +36,22 @@ class LandingController extends GetxController {
         shoe = Shoe.fromJson(doc.data());
         priceDouble = double.parse(shoe.price!.split('€')[0].replaceAll(",", "."));
         shoe.priceDouble = priceDouble;
-        print(shoe.title);
         shoes.add(shoe);
+      }
+
+      for (var i = 0; i < shoes.length; i++) {
+        for (var j = i + 1; j < shoes.length; j++) {
+          if (shoes[i].title == shoes[j].title &&
+              shoes[i].price == shoes[j].price &&
+              shoes[i].image == shoes[j].image &&
+              shoes[i].url == shoes[j].url) {
+            shoes.removeAt(j);
+          }
+        }
+      }
+      //print all img
+      for (var i = 0; i < shoes.length; i++) {
+        print(shoes[i].image);
       }
       shoes.sort((a, b) => a.priceDouble!.compareTo(b.priceDouble!));
 
