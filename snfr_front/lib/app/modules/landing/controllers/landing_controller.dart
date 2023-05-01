@@ -9,6 +9,9 @@ import '../shoe_model.dart';
 class LandingController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   RxList<Shoe> shoes = <Shoe>[].obs;
+  List<Shoe> allShoes = [];
+  var orderAsc = true.obs;
+  var showSearchBar = false.obs;
 
   @override
   void onInit() async {
@@ -49,9 +52,9 @@ class LandingController extends GetxController {
           }
         }
       }
-      
-      shoes.sort((a, b) => a.priceDouble!.compareTo(b.priceDouble!));
 
+      shoes.sort((a, b) => a.priceDouble!.compareTo(b.priceDouble!));
+      allShoes = shoes;
       print(shoes.length);
     } catch (e) {
       print(e);
@@ -68,6 +71,10 @@ class LandingController extends GetxController {
     }
   }
 
+  filterShoes(String query) async {
+      shoes.value = shoes.where((shoe) => shoe.title!.toLowerCase().contains(query.toLowerCase())).toList();
+  }
+
   IconData getIconName(String menuItem) {
     switch (menuItem) {
       case 'Profile':
@@ -78,6 +85,33 @@ class LandingController extends GetxController {
         return Icons.logout_outlined;
       default:
         return Icons.menu;
+    }
+  }
+
+  changeOrder() {
+    if (orderAsc.value) {
+      orderAsc.value = false;
+      orderDesc();
+    } else {
+      orderAsc.value = true;
+      orderAscend();
+    }
+  }
+
+  orderDesc() {
+    shoes.sort((a, b) => b.priceDouble!.compareTo(a.priceDouble!));
+  }
+
+  orderAscend() {
+    shoes.sort((a, b) => a.priceDouble!.compareTo(b.priceDouble!));
+  }
+
+  showSearchBarInView() {
+    print(showSearchBar.value);
+    if (showSearchBar.value) {
+      showSearchBar.value = false;
+    } else {
+      showSearchBar.value = true;
     }
   }
 }

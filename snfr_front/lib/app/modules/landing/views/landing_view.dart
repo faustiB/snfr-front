@@ -50,41 +50,93 @@ class LandingView extends GetView<LandingController> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Obx(
-          () {
-            return ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: controller.shoes.value.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  child: Card(
-                    margin: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ChangeOrderButton(controller: controller),
+                const SizedBox(width: 10),
+                Container(
+                  margin: const EdgeInsets.only(top: 16),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
                     ),
-                    elevation: 8,
-                    shadowColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
+                    onPressed: () {
+                      controller.showSearchBarInView();
+                    },
+                    child: Icon(
+                      Icons.search_rounded,
+                      color: Colors.white,
                     ),
-                    child: CustomListDetailView(
-                      img: controller.shoes[index].image!,
-                      title: controller.shoes[index].title!,
-                      price: controller.shoes[index].price!,
-                    ),
-                    borderOnForeground: true,
                   ),
-                  onTap: () {
-                    //TODO: Move this to detail page of item.
-                    Get.toNamed(Routes.DETAIL, arguments: controller.shoes[index]);
-                    //launchUrl(Uri.parse(controller.shoes[index].url!));
+                )
+              ],
+            ),
+            const SizedBox(height: 10),
+            Obx(
+              () {
+                return Visibility(
+                  visible: controller.showSearchBar.value,
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        /*if (value.isEmpty) {
+                          controller.shoes.value = controller.allShoes;
+                        } else {
+                          controller.filterShoes(value);
+                        }*/
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+            Obx(
+              () {
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: controller.shoes.value.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      child: Card(
+                        margin: const EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 16,
+                        ),
+                        elevation: 8,
+                        shadowColor: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: CustomListDetailView(
+                          img: controller.shoes[index].image!,
+                          title: controller.shoes[index].title!,
+                          price: controller.shoes[index].price!,
+                        ),
+                        borderOnForeground: true,
+                      ),
+                      onTap: () {
+                        //TODO: Move this to detail page of item.
+                        Get.toNamed(Routes.DETAIL, arguments: controller.shoes[index]);
+                        //launchUrl(Uri.parse(controller.shoes[index].url!));
+                      },
+                    );
                   },
                 );
               },
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -111,5 +163,39 @@ class LandingView extends GetView<LandingController> {
         Get.offAllNamed('/login');
         break;
     }
+  }
+}
+
+class ChangeOrderButton extends StatelessWidget {
+  const ChangeOrderButton({
+    super.key,
+    required this.controller,
+  });
+
+  final LandingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 16),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blueAccent,
+        ),
+        onPressed: () {
+          controller.changeOrder();
+        },
+        child: Obx(
+          () {
+            return Text(
+              controller.orderAsc.value ? 'Order Descending' : 'Order Ascending',
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
