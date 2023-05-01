@@ -49,10 +49,7 @@ class LandingController extends GetxController {
           }
         }
       }
-      //print all img
-      for (var i = 0; i < shoes.length; i++) {
-        print(shoes[i].image);
-      }
+      
       shoes.sort((a, b) => a.priceDouble!.compareTo(b.priceDouble!));
 
       print(shoes.length);
