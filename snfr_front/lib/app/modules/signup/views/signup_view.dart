@@ -23,14 +23,6 @@ class SignupView extends GetView<SignupController> {
         children: [
           Container(
             margin: const EdgeInsets.only(top: 100),
-            child: Text(
-              "Sign up to SneakerFinder",
-              style: TextStyle(
-                color: Colors.blueAccent,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
           ),
           CustomFormFieldView(
             margins: const EdgeInsets.only(top: 100, left: 10, right: 10),

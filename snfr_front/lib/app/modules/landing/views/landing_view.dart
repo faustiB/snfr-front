@@ -57,7 +57,7 @@ class LandingView extends GetView<LandingController> {
               children: [
                 ChangeOrderButton(controller: controller),
                 const SizedBox(width: 10),
-                Container(
+                /*Container(
                   margin: const EdgeInsets.only(top: 16),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -71,7 +71,7 @@ class LandingView extends GetView<LandingController> {
                       color: Colors.white,
                     ),
                   ),
-                )
+                )*/
               ],
             ),
             const SizedBox(height: 10),
@@ -127,9 +127,7 @@ class LandingView extends GetView<LandingController> {
                         borderOnForeground: true,
                       ),
                       onTap: () {
-                        //TODO: Move this to detail page of item.
                         Get.toNamed(Routes.DETAIL, arguments: controller.shoes[index]);
-                        //launchUrl(Uri.parse(controller.shoes[index].url!));
                       },
                     );
                   },
